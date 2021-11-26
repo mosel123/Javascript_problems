@@ -1,3 +1,18 @@
+ ////////////////////////////////////////////////////////////////////////////////
+ muestraFuncion('Persistent bugger:', persistence(39));
+ muestraFuncion('Validate Pin:', validatePIN(12345));
+ muestraFuncion('Find missing letter:', findMissingLetter(['a','b','c','d','f']));
+ muestraFuncion('Array difference:', arrayDiff([1,2],[1]));
+
+ function muestraFuncion(string, funcion){
+    try{
+        console.log(string, funcion);
+    }catch(e){
+       console.log(`Error: ${e.message}`);
+    }
+ }
+/////////////////////////////////////////////////////////////////////////////////
+
 /*
 Validate PIN
 ATM machines allow 4 or 6 digit PIN codes and PIN codes cannot contain anything but exactly 4 digits or exactly 6 digits.
@@ -6,22 +21,13 @@ If the function is passed a valid PIN string, return true, else return false.
 
 function validatePIN (pin) {
     var pinStr = pin.toString();
-    var rgx  = /^[0-9]+$/;
-    if(pinStr.length === 4 || pinStr.length === 6){
-        if (pinStr.match(rgx)){
-            return pin + ' --> ' + true;
-        } else {
-            return pin + ' --> ' + false;
-        } 
-    }else{
-        return pin + ' --> ' + false;;
-    } 
-}
+    var rgx  = /^[0-9]{4,6}/;
 
-try{
-    console.log('Validate PIN',validatePIN(12345));
-}catch(e){
-    console.log(`Error: ${e.message}`);
+    if (pinStr.match(rgx) && pinStr.length != 5){
+        return true;
+    } else {
+        return false;
+    } 
 }
 
 /*
@@ -31,11 +37,7 @@ which is the number of times you must multiply the digits in num until you reach
 */
 
 function persistence(num) {
-    if(num < 0){
-        return null;
-    }
-
-    if(typeof num === 'number'){
+    if(typeof num === 'number' || num >= 0){
         var counter = 0;
         var digits = num.toString().split('');
 
@@ -48,17 +50,9 @@ function persistence(num) {
             digits = results.toString().split('');
             counter = counter + 1;
         }
-
-        return num + ' === ' + counter;
-    }else{
-        return false;
-    }  
+        return counter;
+    }
 }
- try{
-     console.log('Persistent bugger',persistence(999));
- }catch(e){
-    console.log(`Error: ${e.message}`);
- }
 
 /*
 Find the missing letter
@@ -81,29 +75,18 @@ function findMissingLetter(array)
 
    for(var i = 0; i < alphabet.length; i++){
        if(array.indexOf(alphabet[i]) == -1){
-            return array + ' --> ' + alphabet[i];
+            return alphabet[i];
        }
    }
 }
-
-try{
-    console.log('Find the missing letter', findMissingLetter(['a','b','c','d','f']));
-}catch(e){
-    console.log(`Error: ${e.message}`);
- }
 
 /*
 Array.diff
 Implement a difference function, which subtracts one list from another and returns the result.
 It should remove all values from list a, which are present in list b keeping their order.
 */
+
 function arrayDiff(a, b) {
     var diff = a.filter(x => !b.includes(x));
-    return '[' + a + ']'+ '[' + b + ']' + ' --> ' + diff;
+    return diff;
 }
-
-try{
-    console.log('Array difference',arrayDiff([1,2,2,2,3],[2]));
-}catch(e){
-    console.log(`Error: ${e.message}`);
- }
